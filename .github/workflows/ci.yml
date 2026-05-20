@@ -1,5 +1,8 @@
 name: Java CI Pipeline
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   push:
     branches:
@@ -12,10 +15,9 @@ on:
 
 jobs:
   build-and-test:
-
     runs-on: ubuntu-latest
-
     strategy:
+      fail-fast: false
       matrix:
         service:
           - accounts
@@ -23,16 +25,14 @@ jobs:
           - loans
           - gatewayserver
           - configserver
-          - eurekaserver
-
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
 
-      - name: Set up JDK 21
-        uses: actions/setup-java@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4.7.0
         with:
-          java-version: '21'
+          java-version: '17'
           distribution: 'temurin'
           cache: maven
 
